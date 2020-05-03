@@ -32,7 +32,7 @@ jobs:
       run: exit 0
       
   build:
-    if: jobs.verify.steps.version.outputs.tag != null
+    if: verify.steps.version.outputs.tag != null
     runs-on: ubuntu-latest
     needs: verify
     steps:
