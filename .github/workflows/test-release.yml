@@ -46,3 +46,6 @@ jobs:
         run: echo "::set-env name=RELEASE_VERSION::$(cat version.txt)"
       - name: Show version
         run: echo ${{ env.RELEASE_VERSION }}
+      - name: Get release version
+        id: get_version
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
