@@ -43,6 +43,5 @@ jobs:
         with:
           name: version-artifact
       - name: Save version in env
-        env:
-          version: $(echo version.txt)
+        run: echo "::set-env name=VERSION::$(cat version.txt)"
         
