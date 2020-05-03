@@ -26,6 +26,7 @@ jobs:
     steps:
     - name: Check version number
       run: echo ${{ steps.version.outputs.tag }}
-    - name: exit
+    - name: Cancel due to wrong version number
+      if: steps.version.outputs.tag == null
       run: exit 1
 
