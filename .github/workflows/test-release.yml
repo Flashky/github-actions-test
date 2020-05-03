@@ -10,25 +10,23 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  checkout:
+  verify:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: olegtarasov/get-tag@v2
-      id: tagName
+      id: version
       with:
         tagRegex: "v(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
         tagRegexGroup: 1 # Optional. Default is 1.
-   
-  verify:
-    runs-on: ubuntu-latest
-    needs: checkout
-    steps:
     - name: Check version number
       run: echo ${{ steps.version.outputs.tag }}
     - name: Cancel due to wrong version number
       if: steps.version.outputs.tag == null
-      run: exit 1
+      run: | 
+        echo "Tag name is wrong: ${{ steps.version.outputs.tag }}"
+        exit 1
+        
   build:
     runs-on: ubuntu-latest
     needs: verify
