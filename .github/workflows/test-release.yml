@@ -27,5 +27,11 @@ jobs:
     steps:
     - name: Check version number
       run: echo ${{ steps.version.outputs.tag }}
-    - name: exit 1
-      run: exit 1
+      
+  cancel:
+    runs-on: ubuntu-latest
+    needs: checkout
+    if: steps.version.outputs.tag == null
+    steps:
+      - name: cancel
+        run: exit 1
