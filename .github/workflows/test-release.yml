@@ -24,8 +24,9 @@ jobs:
       with:
         tagRegex: "v(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
         tagRegexGroup: 1 # Optional. Default is 1.
-    - name: Get the version with action
-      run: echo ${{ steps.tagName.outputs.tag }}
+    - name: Check version number
+      if: ${{ steps.version.outputs.tag }} != null
+      run: echo ${{ steps.version.outputs.tag }}
     # Runs a single command using the runners shell
     - name: Get the version
       id: get_version
