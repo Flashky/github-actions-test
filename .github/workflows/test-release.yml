@@ -21,15 +21,19 @@ jobs:
         tagRegexGroup: 1 # Optional. Default is 1.
     - name: Check version number
       run: echo ${{ steps.version.outputs.tag }}
+      
     - name: Cancel due to wrong version number
       if: steps.version.outputs.tag == null
       run: | 
         echo "Tag name is wrong: ${{ steps.version.outputs.tag }}"
         exit 1
-        
+    - name: Continue if version number is correct
+      if: steps.version.outputs.tag != null
+      run: exit 0
+      
   build:
     runs-on: ubuntu-latest
     needs: verify
     steps:
       - name: Build
-        run: This shouldn't run if verify is false
+        run: echo This shouldn't run if verify is false
