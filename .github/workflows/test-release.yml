@@ -10,23 +10,22 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  checkout:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - uses: olegtarasov/get-tag@v2
       id: tagName
       with:
         tagRegex: "v(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
         tagRegexGroup: 1 # Optional. Default is 1.
+   
+  verify:
+    needs: checkout
+    if: steps.version.outputs.tag != null 
+    runs-on: ubuntu-latest
+    steps:
     - name: Check version number
-      if: steps.version.outputs.tag == null
       run: echo ${{ steps.version.outputs.tag }}
-    - name: Check version number (the other way)
-      if: steps.version.outputs.tag != null
-      run: echo ${{ steps.version.outputs.tag }}
+    - name: exit 1
+      run: exit 1
