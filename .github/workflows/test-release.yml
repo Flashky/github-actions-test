@@ -42,6 +42,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: version-artifact
-      - name: Check verison artifact
-        run: cat version.txt
+      - name: Save version in env
+        env:
+          version: $(echo version.txt)
         
