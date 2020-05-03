@@ -30,6 +30,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: version-artifact
+        path: version.txt
      
   build:
     runs-on: ubuntu-latest
